@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Setup</title></head>
+<body>
+  <h2>Enter M-Pesa Credentials</h2>
+  <form id="creds-form">
+    <input id="shortcode" placeholder="Shortcode" required><br>
+    <input id="passkey" placeholder="Passkey" required><br>
+    <input id="ckey" placeholder="Consumer Key" required><br>
+    <input id="csecret" placeholder="Consumer Secret" required><br>
+    <button type="submit">Save</button>
+  </form>
+  <div id="msg"></div>
+  <script>
+    document.getElementById('creds-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const body = {
+        shortcode: document.getElementById('shortcode').value,
+        passkey: document.getElementById('passkey').value,
+        consumerKey: document.getElementById('ckey').value,
+        consumerSecret: document.getElementById('csecret').value,
+      };
+      const res = await fetch('/api/credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      document.getElementById('msg').innerText = data.message;
+    });
+  </script>
+</body>
+</html>
